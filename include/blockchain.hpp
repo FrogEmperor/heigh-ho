@@ -12,12 +12,14 @@ struct Blockchain {
 
     Blockchain();
 
-    Block newBlock(int proof);
-    int newTransaction(std::string sender, std::string recipient, int amount);
     Block lastBlock();
-
+    Block newBlock(int proof, std::string previous);
+    int newTransaction(std::string sender, std::string recipient, int amount);
+    int proofOfWork(int lastProof);
 };
 
 std::string hash(Block block);
 
 std::string serialize(Block block);
+
+bool validProof(int lastProof, int currentProof);

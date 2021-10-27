@@ -1,6 +1,7 @@
 #include <ctime>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "block.hpp"
 #include "blockchain.hpp"
@@ -10,13 +11,17 @@
 Blockchain::Blockchain() {
     this->chain = std::vector<Block>();
     this->currentTransactions = std::vector<Transaction>();
+    this->newBlock(100, "1");
 }
 
-Block Blockchain::newBlock(int proof) {
+Block Blockchain::newBlock(int proof, std::string previous) {
     int index = this->chain.size() + 1;
     int timestamp = std::time(0);
     std::vector<Transaction> transactions = this->currentTransactions;
-    std::string previous = hash(this->lastBlock());
+
+    if(previous != "1") {
+        previous = hash(this->lastBlock());
+    }
 
     Block newBlock = Block(index, timestamp, transactions, proof, previous);
 
@@ -36,6 +41,24 @@ Block Blockchain::lastBlock() {
     return this->chain.back();
 }
 
+int Blockchain::proofOfWork(int lastProof) {
+    int proof = 0;
+    while(!validProof(lastProof, proof)) {
+        if(proof % 100000 == 0) {
+            std::cout << "Already reached " << proof << " attempts!" << std::endl;
+        }
+        proof += 1;
+    }
+    return proof;
+}
+
 std::string hash(Block block) {
     return sha256(block.serialize());
+}
+
+bool validProof(int lastProof, int currentProof) {
+    std::string guess = std::to_string(lastProof) + std::to_string(currentProof);
+    std::string guessHash = sha256(guess);
+    std::string difficulty = guessHash.substr(0, 3);
+    return difficulty == "0000";
 }
