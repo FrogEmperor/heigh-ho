@@ -8,10 +8,11 @@
 #include "sha256.hpp"
 
 
-Blockchain::Blockchain() {
+Blockchain::Blockchain(int level) {
     this->chain = std::vector<Block>();
     this->currentTransactions = std::vector<Transaction>();
     this->newBlock(100, "1");
+    this->level = level;
 }
 
 Block Blockchain::newBlock(int proof, std::string previous) {
@@ -20,7 +21,7 @@ Block Blockchain::newBlock(int proof, std::string previous) {
     std::vector<Transaction> transactions = this->currentTransactions;
 
     if(previous != "1") {
-        previous = hash(this->lastBlock());
+        previous = this->lastBlock().hash();
     }
 
     Block newBlock = Block(index, timestamp, transactions, proof, previous);
@@ -44,21 +45,20 @@ Block Blockchain::lastBlock() {
 int Blockchain::proofOfWork(int lastProof) {
     int proof = 0;
     while(!validProof(lastProof, proof)) {
-        if(proof % 100000 == 0) {
+        proof += 1;
+        if(proof % 1000000 == 0) {
             std::cout << "Already reached " << proof << " attempts!" << std::endl;
         }
-        proof += 1;
     }
+    std::cout << "Proof: " << proof << std::endl;
     return proof;
 }
 
-std::string hash(Block block) {
-    return sha256(block.serialize());
-}
-
-bool validProof(int lastProof, int currentProof) {
+bool Blockchain::validProof(int lastProof, int currentProof) {
     std::string guess = std::to_string(lastProof) + std::to_string(currentProof);
     std::string guessHash = sha256(guess);
-    std::string difficulty = guessHash.substr(0, 3);
-    return difficulty == "0000";
+    std::string sub = guessHash.substr(0, this->level);
+    std::string zero = std::string(this->level, '0');
+
+    return sub == zero;
 }

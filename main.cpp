@@ -4,10 +4,10 @@
 
 
 int main() {
-    Blockchain btc = Blockchain();
+    Blockchain btc = Blockchain(3);
 
     btc.newTransaction("oscar", "manolo", 1);
-    btc.newTransaction("manolo", "fermin", 2);
+    btc.newTransaction("manolo", "dagz", 2);
 
     int lastProof = btc.lastBlock().proof;
     int newProof = btc.proofOfWork(lastProof);

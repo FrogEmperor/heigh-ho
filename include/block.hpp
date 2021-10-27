@@ -22,4 +22,5 @@ struct Block {
     Block(int index, int timestamp, std::vector<Transaction> transactions, int proof, std::string previousHash);
 
     std::string serialize();
+    std::string hash();
 };

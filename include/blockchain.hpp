@@ -7,19 +7,15 @@
 
 
 struct Blockchain {
+    int level;
     std::vector<Block> chain;
     std::vector<Transaction> currentTransactions;
 
-    Blockchain();
+    Blockchain(int level);
 
     Block lastBlock();
     Block newBlock(int proof, std::string previous);
     int newTransaction(std::string sender, std::string recipient, int amount);
     int proofOfWork(int lastProof);
+    bool validProof(int lastProof, int currentProof);
 };
-
-std::string hash(Block block);
-
-std::string serialize(Block block);
-
-bool validProof(int lastProof, int currentProof);

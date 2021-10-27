@@ -1,4 +1,5 @@
 #include "block.hpp"
+#include "sha256.hpp"
 
 
 Transaction::Transaction(std::string sender, std::string recipient, int amount) {
@@ -21,4 +22,8 @@ std::string Block::serialize() {
         result += std::to_string(trans.amount) + trans.recipient + trans.sender;
     }
     return result;
+}
+
+std::string Block::hash() {
+    return sha256(this->serialize());
 }
