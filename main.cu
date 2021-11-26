@@ -1,19 +1,15 @@
-#include <iostream>
-#include "blockchain.hpp"
-#include "cuda_runtime.h"
+#include "sha256_gpu.cuh"
 
-__global__ void kernel(){
+int main(){
+    BYTE in[11];
+    BYTE out[321]; 
+    strcpy( (char*) in, "0123456789" );
+    WORD inW = 10;
+    WORD inO = 10;
 
-}
-
-int main() {
-    Blockchain btc = Blockchain(7);
-    btc.newTransaction("oscar", "manolo", 1);
-    btc.newTransaction("manolo", "dagz", 2);
-
-    int lastProof = btc.lastBlock().proof;
-    int newProof = btc.proofOfWork(lastProof);
-    btc.newBlock(newProof, std::to_string(lastProof));
-    kernel<<<1,1>>>();
-    return 0;
+    mcm_cuda_sha256_hash_batch(in, inW, out, inO);
+    for(int i = 0; i < 330; i++){
+        printf("%d:%d ",i,out[i]);
+    }
+    printf("\nMAMA");
 }
