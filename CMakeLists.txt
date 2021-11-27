@@ -15,7 +15,10 @@ add_library(miner STATIC
     src/blockchain.cpp 
     src/sha256.cpp
 )
-add_library(miner_gpu STATIC src/sha256_gpu.cu)
+add_library(miner_gpu STATIC 
+    src/sha256_gpu.cu
+    src/proof.cu
+)
 
 add_executable(cash main.cpp)
 add_executable(cash_gpu main.cu)
