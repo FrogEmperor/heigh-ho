@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 __global__ void kernel(int* buffer){
-    *buffer = validProof(1, 1, 1);
+    *buffer = proofOfWork(12345,2);
 }
 
 

@@ -20,4 +20,4 @@ __device__ int compareStrings(char* first, char* second);
 
 __device__ int validProof(int lastProof, int currentProof, int level);
 
-__device__ void proofOfWork();
+__device__ int proofOfWork(int lastProof, int level);

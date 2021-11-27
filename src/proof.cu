@@ -111,4 +111,10 @@ __device__ int validProof(int lastProof, int currentProof, int level){
     return compareStrings(sub, zero, level);
 }
 
-__device__ void proofOfWork();
+__device__ int proofOfWork(int lastProof, int level){
+    int proof = 0;
+    while(!validProof(lastProof, proof, level)) {
+        proof += 1;
+    }
+    return proof;
+}
