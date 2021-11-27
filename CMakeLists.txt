@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 project(BIGCASHMONEY VERSION 0.1 LANGUAGES CUDA CXX)
 
-set(CUDA_NVCC_FLAGS -gencode arch=compute_75,code=sm_75;-G;-g)
+string(APPEND CMAKE_CUDA_FLAGS " -dc -gencode=arch=compute_75,code=sm_75")
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 11)

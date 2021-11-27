@@ -26,7 +26,7 @@ const static uint32_t k[64] = {
 
 #define rotate_r(val, bits) (val >> bits | val << (32 - bits))
 
-__device__  static void sha256_calc_chunk(struct sha256_buff* buff, const uint8_t* chunk) {
+__device__ static void sha256_calc_chunk(struct sha256_buff* buff, const uint8_t* chunk) {
     const static uint32_t k[64] = {
         0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
         0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
@@ -102,7 +102,7 @@ __device__ void sha256_update(struct sha256_buff* buff, const void* data, size_t
     buff->chunk_size += size;
 }
 
-__device__  void sha256_finalize(struct sha256_buff* buff) {
+__device__ void sha256_finalize(struct sha256_buff* buff) {
     buff->last_chunk[buff->chunk_size] = 0x80;
     buff->chunk_size++;
     memset(buff->last_chunk + buff->chunk_size, 0, 64 - buff->chunk_size);
@@ -162,8 +162,4 @@ __device__ void sha256_easy_hash_hex(const void* data, size_t size, char* hex) {
     uint8_t hash[32];
     sha256_easy_hash(data, size, hash);
     bin_to_hex(hash, 32, hex);
-}
-
-__device__ void mama(){
-    
 }
