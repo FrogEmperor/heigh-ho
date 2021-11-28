@@ -16,7 +16,7 @@ __device__ char* substring(char* string, int len);
 
 __device__ char* repeatChar(char c, int len);
 
-__device__ int compareStrings(char* first, char* second);
+__device__ int compareStrings(char* first, char* second,  int level);
 
 __device__ int validProof(int lastProof, int currentProof, int level);
 

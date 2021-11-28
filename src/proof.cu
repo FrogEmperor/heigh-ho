@@ -103,12 +103,20 @@ __device__ int compareStrings(char* first, char* second, int len){
 }
 
 __device__ int validProof(int lastProof, int currentProof, int level){
-    char* guess = joinStrings(itoa(lastProof), itoa(currentProof));
+    char* lastProofChar = itoa(lastProof);
+    char* currentProofChar = itoa(currentProof);
+    char* guess = joinStrings(lastProofChar, currentProofChar);
+    free(lastProofChar); 
+    free(currentProofChar);
     char guessHash[65] = {0};
     sha256_easy_hash_hex(guess, stringSize(guess), guessHash);
+    free(guess);
     char* sub = substring(guessHash, level);
     char* zero = repeatChar('0', level);
-    return compareStrings(sub, zero, level);
+    int result = compareStrings(sub, zero, level);
+    free(sub);
+    free(zero);
+    return result;
 }
 
 __device__ int proofOfWork(int lastProof, int level){
